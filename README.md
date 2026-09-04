@@ -1,15 +1,16 @@
-# Interactive Quiz App 🧠⚡
+ # Interactive Quiz - Science and Trivia
 
-A lightweight, responsive web-based quiz application built with HTML5, CSS3, and Vanilla JavaScript. Test your knowledge across physics, astronomy, and science trivia!
+ 
 
-## 🚀 Live Demo
-Try the live quiz here:  
-**[Interactive Quiz Demo](https://kingplayer-eng.github.io/Interactive-quiz/)**
+<img width="1530" height="865" alt="Screenshot (346)" src="https://github.com/user-attachments/assets/9e0aacb1-0e51-4eb6-b165-ace297d8448f" />
 
-## ✨ Features
-* **Welcome Screen**: Clean landing page before starting the quiz.
-* **Dynamic Questions**: Interactive answer selection with instant state tracking.
-* **Score Calculation**: Automatically tallies points and presents a final results summary.
-* **Restart Functionality**: Play again instantly without refreshing the page.
-* **Responsive Card UI**: Styled with dark mode aesthetics.
 
+# It contains Basic quiz to attempt made with HTML in Vs code.
+
+
+# Feaures-
+- Smooth functioning
+- Start Button
+- Automatic Result calculations
+- Restart quiz at the end
+- Interactive option 
