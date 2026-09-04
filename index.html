@@ -1,31 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewpoint" content="width=device-width", initial-scale=1.
-<title>Interactive Quiz Apps</title>
-<styles>
-  /* Basic page <Setup></Setup> 
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #0f182;
-    color: #fff;
-    display: flex;
-    justify-content:center:
-    align-items:center;
-    height: 110vh
-    margine:0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Quiz App</title>
+  <style>
+    /* Basic page setup */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f172a;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
+
     /* Main Container Card */
     .quiz-card {
-        background-colour: #1e293b;
-        padding:30px;
-        border-radius: 12px;
-        width:360px;
-        text-align: center;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      background-color: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      width: 360px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
 
- 
+    /* Question Styling */
+    h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
 
+    /* Answer Buttons Container */
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
+    /* Standard Button Styling */
+    .btn {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #2563eb;
+    }
+
+    /* Score Display Styling */
+    #score-text {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 20px;
+      color: #38bdf8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-card">
+    <div id="start-box">
+      <h2>Welcome to the Science and Trivia Quiz!</h2>
+      <button class="btn" onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <div id="quiz-box" style="display: none;">
+      <h2 id="question-text">Loading questions...</h2>
+      <div id="options-container" class="options-container"></div>
+    </div>
+
+    <div id="result-box" style="display: none;">
+      <h2>Quiz Finished!</h2>
+      <p id="score-text">You scored 0 / 0</p>
+      <button class="btn" onclick="restartQuiz()">Restart Quiz</button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Array containing all quiz questions, options, and correct answers 
+    const quizData = [
+      {
+        question: "What is omega (ω) in Physics?",
+        options: [
+          "Angular frequency",
+          "Angular velocity",
+          "Angular acceleration",
+          "Tangential velocity"
+        ],
+        correct: 1 // Index 1 refers to "Angular velocity"
+      },
+      {
+        question: "What colour is created by combining Red and Blue in Limitless?",
+        options: [
+          "Hollow Purple",
+          "Cursed Black",
+          "Dark Orange",
+          "Bright Yellow"
+        ],
+        correct: 0 // Index 0 refers to "Hollow Purple"
+      },
+      {
+        question: "What is the black hole at the center of the Milky Way called?",
+        options: [
+          "Sagittarius A*",
+          "Sagittarius B*",
+          "Sagittarius C*",
+          "Sagittarius D*"
+        ],
+        correct: 0 // Index 0 refers to "Sagittarius A*"
+      },
+      {
+        question: "How many Earths can fit inside Jupiter?",
+        options: [
+          "700",
+          "1,321",
+          "500",
+          "10,000"
+        ],
+        correct: 1 // Index 1 refers to "1,321"
+      },
+      {
+        question: "What is the differentiation of velocity (dv/dt)?",
+        options: [
+          "Acceleration",
+          "Displacement",
+          "Momentum",
+          "Force"
+  ],
+  correct: 0 // Index 0 refers to "Acceleration"
+},
+    ];
+
+    // 2. Track current quiz state
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    // Grab elements from the HTML 
+    const startBox = document.getElementById('start-box');
+    const quizBox = document.getElementById('quiz-box');
+    const resultBox = document.getElementById('result-box');
+    const questionElement = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const scoreText = document.getElementById('score-text');
+
+    // 3. Start Quiz logic
+    function startQuiz() {
+      startBox.style.display = 'none';
+      resultBox.style.display = 'none';
+      quizBox.style.display = 'block';
+      currentQuestionIndex = 0;
+      score = 0;
+      loadQuestion();
+    }
+
+    // 4. Load current question onto screen 
+    function loadQuestion() {
+      // Clear previous option buttons 
+      optionsContainer.innerHTML = '';
+
+      // Get current question object
+      const currentData = quizData[currentQuestionIndex];
+      questionElement.innerText = currentData.question;
+
+      // Create a button for each answer option 
+      currentData.options.forEach((optionText, index) => {
+        const button = document.createElement('button');
+        button.innerText = optionText;
+        button.classList.add('btn');
+
+        // Check answer when button is clicked 
+        button.onclick = function() {
+          selectAnswer(index);
+        };
+        optionsContainer.appendChild(button);
+      });
+    }
+      
+    // 5. Handle user answer selection
+    function selectAnswer(selectedIndex) {
+      const currentData = quizData[currentQuestionIndex];
+
+      // Increase score if selected index matches correct index 
+      if (selectedIndex === currentData.correct) {
+        score++;
+      }
+
+      // Move to next question or show final score if quiz is finished
+      currentQuestionIndex++;
+      if (currentQuestionIndex < quizData.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    }
+    
+    // 6. Display final score screen
+    function showResult() {
+      quizBox.style.display = 'none';
+      resultBox.style.display = 'block';
+      scoreText.innerText = `You scored ${score} / ${quizData.length}`;
+    }
+    
+    // 7. Reset variables and restart quiz 
+    function restartQuiz() {
+      startQuiz();
+    }
+  </script>
+
+</body>
+</html>
