@@ -5,26 +5,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Quiz App</title>
   <style>
+    /* CSS Variables for Light / Dark Mode */
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-color: #ffffff;
+      --subtext-color: #94a3b8;
+      --btn-bg: #3b82f6;
+      --btn-hover: #2563eb;
+    }
+
+    body.light-theme {
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-color: #0f172a;
+      --subtext-color: #64748b;
+      --btn-bg: #2563eb;
+      --btn-hover: #1d4ed8;
+    }
+    
     /* Basic page setup */
     body {
       font-family: Arial, sans-serif;
-      background-color: #0f172a;
-      color: #fff;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      transition: background-color 0.3s ease;
     }
 
     /* Main Container Card */
     .quiz-card {
-      background-color: #1e293b;
+      background-color: var(--card-bg);
       padding: 30px;
       border-radius: 12px;
       width: 360px;
       text-align: center;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Header bar for theme toggle */
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 15px;
+    }
+
+    .theme-btn {
+      background: transparent;
+      border: 1px solid var(--subtext-color);
+      color: var(--text-color);
+      padding: 5px 10px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 13px;
     }
 
     /* Question Styling */
@@ -33,8 +70,7 @@
       margin-bottom: 20px;
     }
 
-    /* Answer Buttons Container */
-    .options-container {
+    .btn-group {
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -42,25 +78,35 @@
 
     /* Standard Button Styling */
     .btn {
-      background-color: #3b82f6;
+      background-color: var(--btn-bg);
       color: white;
       border: none;
       padding: 12px;
       font-size: 16px;
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.2s ease;
+      transition: background-color 0.2s ease, transform 0.1s ease;
     }
 
     .btn:hover {
-      background-color: #2563eb;
+      background-color: var(--btn-hover);
+      transform: translateY(-2px);
     }
+
+    .easy-btn { background-color: #22c55e; }
+    .easy-btn:hover { background-color: #16a34a; }
+
+    .mod-btn { background-color: #eab308; color: #000; }
+    .mod-btn:hover { background-color: #ca8a04; }
+
+    .hard-btn { background-color: #ef4444; }
+    .hard-btn:hover { background-color: #dc2626; }
 
     /* Score Display Styling */
     #score-text {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: bold;
-      margin: 20px;
+      margin: 20px 0;
       color: #38bdf8;
     }
   </style>
@@ -68,151 +114,179 @@
 <body>
 
   <div class="quiz-card">
-    <div id="start-box">
-      <h2>Welcome to the Science and Trivia Quiz!</h2>
-      <button class="btn" onclick="startQuiz()">Start Quiz</button>
+    <div class="top-bar">
+      <button class="theme-btn" onclick="toggleTheme()">☀️ Light Mode</button>
     </div>
 
+    <!-- Step 1: Select Difficulty -->
+    <div id="difficulty-box">
+      <h2>Select Difficulty</h2>
+      <p style="color: var(--subtext-color); font-size: 14px;">Choose your challenge level to begin:</p>
+      <div class="btn-group">
+        <button class="btn easy-btn" onclick="startQuiz('easy')">🟢 Easy</button>
+        <button class="btn mod-btn" onclick="startQuiz('moderate')">🟡 Moderate</button>
+        <button class="btn hard-btn" onclick="startQuiz('hard')">🔴 Hard</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Question Box -->
     <div id="quiz-box" style="display: none;">
-      <h2 id="question-text">Loading questions...</h2>
-      <div id="options-container" class="options-container"></div>
+      <h2 id="question-text">Question</h2>
+      <div id="options-container" class="btn-group"></div>
     </div>
 
+    <!-- Step 3: Result Box -->
     <div id="result-box" style="display: none;">
-      <h2>Quiz Finished!</h2>
-      <p id="score-text">You scored 0 / 0</p>
-      <button class="btn" onclick="restartQuiz()">Restart Quiz</button>
+      <h2>Quiz Complete!</h2>
+      <div id="score-text"></div>
+      <button class="btn" onclick="restartQuiz()" style="width: 100%;">Play Again</button>
     </div>
   </div>
 
   <script>
-    // 1. Array containing all quiz questions, options, and correct answers 
-    const quizData = [
-      {
-        question: "What is omega (ω) in Physics?",
-        options: [
-          "Angular frequency",
-          "Angular velocity",
-          "Angular acceleration",
-          "Tangential velocity"
-        ],
-        correct: 1 // Index 1 refers to "Angular velocity"
-      },
-      {
-        question: "What colour is created by combining Red and Blue in Limitless?",
-        options: [
-          "Hollow Purple",
-          "Cursed Black",
-          "Dark Orange",
-          "Bright Yellow"
-        ],
-        correct: 0 // Index 0 refers to "Hollow Purple"
-      },
-      {
-        question: "What is the black hole at the center of the Milky Way called?",
-        options: [
-          "Sagittarius A*",
-          "Sagittarius B*",
-          "Sagittarius C*",
-          "Sagittarius D*"
-        ],
-        correct: 0 // Index 0 refers to "Sagittarius A*"
-      },
-      {
-        question: "How many Earths can fit inside Jupiter?",
-        options: [
-          "700",
-          "1,321",
-          "500",
-          "10,000"
-        ],
-        correct: 1 // Index 1 refers to "1,321"
-      },
-      {
-        question: "What is the differentiation of velocity (dv/dt)?",
-        options: [
-          "Acceleration",
-          "Displacement",
-          "Momentum",
-          "Force"
-  ],
-  correct: 0 // Index 0 refers to "Acceleration"
+    // Questions grouped by difficulty
+    const quizQuestion = {
+      easy: [
+        {
+          question: "What is omega (ω) in Physics?",
+          options: ["Angular frequency / velocity", "Linear acceleration", "Force", "Tangential velocity"],
+          correct: 0
+        },
+{
+  question: "Which three planets in our solar system are in the habitable zone?",
+  options: ["Earth, Mars, Jupiter", "Earth, Venus, Mars", "Earth, Neptune, Saturn", "Earth, Uranus, Neptune"],
+  correct: 1
 },
-    ];
+{
+  question: "What is ESP32?",
+  options: ["Microchip", "Microcontroller" , "Gyroscope" , "Thermometer"],
+  correct:1
+},
+{
+  question: "Longest travelled human made object ?",
+  options: ["GSLV-F17", "SLS-Rocket" , "Voyager 1" , "Starship V3" ],
+  correct:2
+},
 
-    // 2. Track current quiz state
+      ],
+      moderate: [
+        {
+          question: "What is the SI unit of Angular Velocity (ω)?",
+          options: ["m/s", "rad/s", "rad/s²", "Hertz"],
+          correct: 1
+        },
+        {
+          question: "What sensor is found in Computer-Mouse?",
+          options: [" optoelectronic sensor" , " IR sensor" ,"Accelerometer" ,"Proximity Sensor"],
+          correct: 0
+        },
+        {
+          question: "Which law says For every reaction , there is an equal and opposite reaction?",
+          options: ["Newton 1 law", "Newton 2 law", "Newton 3 law", "Special Relativity theory"],
+          correct: 2  
+        },
+        {
+          question: "How much is gravitational force of moon wrt earth?",
+          options: ["1/20" , "1/5.4" , "1/10" , "1/6"],
+          correct: 3 
+        },
+        {
+          question: "What force is required to escape Earth's gravitatioanl pull(Escape velocity)?",
+          options: ["11.2 m/s", " 27.2 m/s", "8.2 m/s" , "4 m/s"],
+          correct: 0
+        }
+
+      ],
+      hard: [
+        {
+          question: "In simple harmonic motion, how is maximum velocity related to omega (ω)?",
+          options: ["v = ω / A", "v = A * ω", "v = A * ω²", "v = ω² / A"],
+          correct: 1
+        },
+        {
+        question: "Which principle states that position and momentum cannot both be measured precisely at the same time?",
+        options: ["Pauli Exclusion Principle","Heisenberg Uncertainty Principle","Schrödinger's Rule","Planck's Law"],
+        correct: 1
+        },
+        {
+        question: "What is the exact speed of light in a vacuum?",
+        options: ["299,792,458 m/s","300,000,000 m/s","150,000,000 m/s","343 m/s"],
+        correct:0
+        },
+        {
+          question: "Which friction act when we start walking?",
+          options: ["Kinetic Friction" , "Static Friction", "Rolling Friction", "None of the above"],
+          correct:1
+        }
+
+      ]
+    };
+
+    let activeQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
 
-    // Grab elements from the HTML 
-    const startBox = document.getElementById('start-box');
-    const quizBox = document.getElementById('quiz-box');
-    const resultBox = document.getElementById('result-box');
-    const questionElement = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container');
-    const scoreText = document.getElementById('score-text');
-
-    // 3. Start Quiz logic
-    function startQuiz() {
-      startBox.style.display = 'none';
-      resultBox.style.display = 'none';
-      quizBox.style.display = 'block';
+    function startQuiz(level) {
+      activeQuestions = quizQuestion[level];
       currentQuestionIndex = 0;
       score = 0;
+
+      document.getElementById('difficulty-box').style.display = 'none';
+      document.getElementById('quiz-box').style.display = 'block';
       loadQuestion();
     }
 
-    // 4. Load current question onto screen 
     function loadQuestion() {
-      // Clear previous option buttons 
+      const optionsContainer = document.getElementById('options-container');
       optionsContainer.innerHTML = '';
 
-      // Get current question object
-      const currentData = quizData[currentQuestionIndex];
-      questionElement.innerText = currentData.question;
+      const currentData = activeQuestions[currentQuestionIndex];
+      document.getElementById('question-text').innerText = currentData.question;
 
-      // Create a button for each answer option 
       currentData.options.forEach((optionText, index) => {
         const button = document.createElement('button');
         button.innerText = optionText;
         button.classList.add('btn');
-
-        // Check answer when button is clicked 
-        button.onclick = function() {
-          selectAnswer(index);
-        };
+        button.onclick = () => selectAnswer(index);
         optionsContainer.appendChild(button);
       });
     }
-      
-    // 5. Handle user answer selection
-    function selectAnswer(selectedIndex) {
-      const currentData = quizData[currentQuestionIndex];
 
-      // Increase score if selected index matches correct index 
-      if (selectedIndex === currentData.correct) {
+    function selectAnswer(selectedIndex) {
+      if (selectedIndex === activeQuestions[currentQuestionIndex].correct) {
         score++;
       }
 
-      // Move to next question or show final score if quiz is finished
       currentQuestionIndex++;
-      if (currentQuestionIndex < quizData.length) {
+      if (currentQuestionIndex < activeQuestions.length) {
         loadQuestion();
       } else {
         showResult();
       }
     }
-    
-    // 6. Display final score screen
+
     function showResult() {
-      quizBox.style.display = 'none';
-      resultBox.style.display = 'block';
-      scoreText.innerText = `You scored ${score} / ${quizData.length}`;
+      document.getElementById('quiz-box').style.display = 'none';
+      document.getElementById('result-box').style.display = 'block';
+      document.getElementById('score-text').innerText = `You scored ${score} out of ${activeQuestions.length}!`;
     }
-    
-    // 7. Reset variables and restart quiz 
+
     function restartQuiz() {
-      startQuiz();
+      document.getElementById('result-box').style.display = 'none';
+      document.getElementById('difficulty-box').style.display = 'block';
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const themeBtn = document.querySelector('.theme-btn');
+      
+      if (body.classList.contains('light-theme')) {
+        body.classList.remove('light-theme');
+        themeBtn.innerText = '☀️ Light Mode';
+      } else {
+        body.classList.add('light-theme');
+        themeBtn.innerText = '🌙 Dark Mode';
+      }
     }
   </script>
 
