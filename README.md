@@ -1,8 +1,9 @@
  # Interactive Quiz - Science and Trivia
 
  
+<img width="1357" height="783" alt="Screenshot (349)" src="https://github.com/user-attachments/assets/f35a8161-e598-41b2-8f5e-e5d145c9209f" />
 
-<img width="1530" height="865" alt="Screenshot (346)" src="https://github.com/user-attachments/assets/9e0aacb1-0e51-4eb6-b165-ace297d8448f" />
+
 
 
 # It contains Basic quiz to attempt made with HTML in Vs code.
@@ -13,4 +14,6 @@
 - Start Button
 - Automatic Result calculations
 - Restart quiz at the end
-- Interactive option 
+- Interactive option
+- Levels- Easy , moderate and hard.
+- Light and dark mode.
