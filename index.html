@@ -1,70 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                     <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Quiz App</title>
-  <style>
-    /* CSS Variables for Light / Dark Mode */
+                 <style>
     :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --text-color: #ffffff;
-      --subtext-color: #94a3b8;
-      --btn-bg: #3b82f6;
-      --btn-hover: #2563eb;
+       --bg-color: #1eb293b;
+             --card-bg: #1e293b;
+               --text-color: #ffffff;
+                     --subtext-color: #94a3b8;
+                        --btn-bg: #3b82f6;
+                                --btn-hover: #2563eb;
     }
 
-    body.light-theme {
-      --bg-color: #f1f5f9;
-      --card-bg: #ffffff;
-      --text-color: #0f172a;
-      --subtext-color: #64748b;
-      --btn-bg: #2563eb;
-      --btn-hover: #1d4ed8;
+    body{
+      font-family: Arial , monospace;
+               background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREISD_r-IHcENmjhFToPhd-padw5WxcEjPmfCxVcXKxg&s=10https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREISD_r-IHcENmjhFToPhd-padw5WxcEjPmfCxVcXKxg&s=10');
+                background-size:  cover;
+                 background-position: center;
+                 background-repeat: no-repeat;
+                 color: var(text color);
+                    display: flex;
+                    justify-content: center;
+                      align-items: center;
+                       min-height: 100vh;
+                        margin: 0;
     }
     
-    /* Basic page setup */
-    body {
+
+                    body.light-theme {
+               --bg-color: #f1f5f9;
+                       --card-bg: #ffffff;
+                             --text-color: #0f172a;
+                                --subtext-color: #64748b;
+                             --btn-bg: #2563eb;
+                                 --btn-hover: #1d4ed8;
+    }
+    
+                   body {
       font-family: Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      transition: background-color 0.3s ease;
+       background-color: var(--bg-color);
+       color: var(--text-color);
+        display: flex;
+         justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+         margin: 0;
+           transition: background-color 0.3s ease;
     }
 
-    /* Main Container Card */
-    .quiz-card {
+                  .quiz-card {
       background-color: var(--card-bg);
       padding: 30px;
       border-radius: 12px;
-      width: 360px;
+           width: 360px;
       text-align: center;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
 
-    /* Header bar for theme toggle */
-    .top-bar {
+                 .top-bar {
       display: flex;
       justify-content: flex-end;
       margin-bottom: 15px;
     }
 
-    .theme-btn {
+                .theme-btn {
       background: transparent;
       border: 1px solid var(--subtext-color);
-      color: var(--text-color);
-      padding: 5px 10px;
+        color: var(--text-color);
+          padding: 5px 10px;
       border-radius: 15px;
       cursor: pointer;
       font-size: 13px;
     }
 
-    /* Question Styling */
     h2 {
       font-size: 20px;
       margin-bottom: 20px;
@@ -76,8 +86,7 @@
       gap: 10px;
     }
 
-    /* Standard Button Styling */
-    .btn {
+               .btn {
       background-color: var(--btn-bg);
       color: white;
       border: none;
@@ -85,210 +94,280 @@
       font-size: 16px;
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.2s ease, transform 0.1s ease;
+      transition: all 0.2s   cubic-bezeier(0.4,0,0.2,1);
     }
 
     .btn:hover {
       background-color: var(--btn-hover);
       transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.16)
+    }
+                    
+      .btn:active {
+        transform: translateY(0);
+        box-shadow: none;
+      }
+
+
+               .easy-btn { background-color: #22c55e; }
+                   .easy-btn:hover { background-color: #16a34a; }
+
+         .mod-btn { background-color: #eab308; color: #000; }
+                   .mod-btn:hover { background-color: #ca8a04; }
+
+        .hard-btn { background-color: #ef4444; }
+                 .hard-btn:hover { background-color: #dc2626; }
+
+                        #score-text {
+              font-size: 20px;
+              font-weight: bold;
+            margin: 20px 0;
+             color: #38bdf8;
     }
 
-    .easy-btn { background-color: #22c55e; }
-    .easy-btn:hover { background-color: #16a34a; }
+               .review-container {
+      margin-top: 15px;
+        margin-bottom: 20px;
+        text-align: left;
+          max-height: 200px;
+        overflow-y: auto;
+      padding-right: 5px;
+    }
 
-    .mod-btn { background-color: #eab308; color: #000; }
-    .mod-btn:hover { background-color: #ca8a04; }
-
-    .hard-btn { background-color: #ef4444; }
-    .hard-btn:hover { background-color: #dc2626; }
-
-    /* Score Display Styling */
-    #score-text {
-      font-size: 20px;
+                   .review-item {
+      background-color: rgba(0, 0, 0, 0.2);
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      font-size: 14px;
+    }
+     
+                    .review-q {
       font-weight: bold;
-      margin: 20px 0;
-      color: #38bdf8;
+      margin-bottom: 5px;
     }
+    
+                  .wrong-ans {
+      color: #ef4444;
+      margin-bottom: 3px;
+    }
+
+                                 .correct-ans {
+      color: #22c55e;
+    }
+
+    @keyframes fandeInUp {
+          from{
+                 opacity: 0;
+                 transform: translateY(15PX);
+          }
+            to{
+                opacity: 1;
+                transoform: translateY(0);
+            }
+    }
+     
+           #difficulty-box, #quiz-box, #result-box {
+            animation: fadeInUp 0.35s ease-out forward;
+
+           }
   </style>
 </head>
 <body>
-
-  <div class="quiz-card">
-    <div class="top-bar">
-      <button class="theme-btn" onclick="toggleTheme()">☀️ Light Mode</button>
-    </div>
-
-    <!-- Step 1: Select Difficulty -->
-    <div id="difficulty-box">
-      <h2>Select Difficulty</h2>
-      <p style="color: var(--subtext-color); font-size: 14px;">Choose your challenge level to begin:</p>
-      <div class="btn-group">
+                       <div class="quiz-card">
+                <div class="top-bar">
+                             <button class="theme-btn" onclick="toggleTheme()">☀️ Light Mode</button>
+     </div>
+  
+                  <div id="difficulty-box">
+              <h2>Select Difficulty</h2>
+                          <p style="color: var(--subtext-color); font-size: 14px;">Choose your challenge level to begin:</p>
+                     <div class="btn-group">
         <button class="btn easy-btn" onclick="startQuiz('easy')">🟢 Easy</button>
-        <button class="btn mod-btn" onclick="startQuiz('moderate')">🟡 Moderate</button>
-        <button class="btn hard-btn" onclick="startQuiz('hard')">🔴 Hard</button>
+                       <button class="btn mod-btn" onclick="startQuiz('moderate')">🟡 Moderate</button>
+                    <button class="btn hard-btn" onclick="startQuiz('hard')">🔴 Hard</button>
       </div>
     </div>
-
-    <!-- Step 2: Question Box -->
-    <div id="quiz-box" style="display: none;">
-      <h2 id="question-text">Question</h2>
+              <div id="quiz-box" style="display: none;">
+             <h2 id="question-text">Question</h2>
       <div id="options-container" class="btn-group"></div>
     </div>
-
-    <!-- Step 3: Result Box -->
-    <div id="result-box" style="display: none;">
-      <h2>Quiz Complete!</h2>
+                <div id="result-box" style="display: none;">
+               <h2>Quiz Complete!</h2>
       <div id="score-text"></div>
-      <button class="btn" onclick="restartQuiz()" style="width: 100%;">Play Again</button>
+      <div id="review-container" class="review-container"></div>
+                  <button class="btn" onclick="restartQuiz()" style="width: 100%;">Play Again</button>
     </div>
   </div>
-
   <script>
-    // Questions grouped by difficulty
-    const quizQuestion = {
-      easy: [
+                  const quizQuestion = {
+             easy: [
         {
           question: "What is omega (ω) in Physics?",
-          options: ["Angular frequency / velocity", "Linear acceleration", "Force", "Tangential velocity"],
+                       options: ["Angular frequency / velocity", "Linear acceleration", "Force", "Tangential velocity"],
           correct: 0
         },
-{
-  question: "Which three planets in our solar system are in the habitable zone?",
-  options: ["Earth, Mars, Jupiter", "Earth, Venus, Mars", "Earth, Neptune, Saturn", "Earth, Uranus, Neptune"],
-  correct: 1
-},
-{
-  question: "What is ESP32?",
-  options: ["Microchip", "Microcontroller" , "Gyroscope" , "Thermometer"],
-  correct:1
-},
-{
-  question: "Longest travelled human made object ?",
-  options: ["GSLV-F17", "SLS-Rocket" , "Voyager 1" , "Starship V3" ],
-  correct:2
-},
-
+        {
+                question: "Which three planets in our solar system are in the habitable zone?",
+                options: ["Earth, Mars, Jupiter", "Earth, Venus, Mars", "Earth, Neptune, Saturn", "Earth, Uranus, Neptune"],
+              correct: 1
+        },
+        {
+           question: "What is ESP32?",
+               options: ["Microchip", "Microcontroller", "Gyroscope", "Thermometer"],
+           correct: 1
+        },
+        {
+            question: "Longest travelled human made object ?",
+                         options: ["GSLV-F17", "SLS-Rocket", "Voyager 1", "Starship V3"],
+            correct: 2
+        }
       ],
-      moderate: [
+                     moderate: [
         {
           question: "What is the SI unit of Angular Velocity (ω)?",
-          options: ["m/s", "rad/s", "rad/s²", "Hertz"],
+                     options: ["m/s", "rad/s", "rad/s²", "Hertz"],
           correct: 1
         },
         {
-          question: "What sensor is found in Computer-Mouse?",
-          options: [" optoelectronic sensor" , " IR sensor" ,"Accelerometer" ,"Proximity Sensor"],
-          correct: 0
+                   question: "What sensor is found in Computer-Mouse?",
+              options: ["optoelectronic sensor", "IR sensor", "Accelerometer", "Proximity Sensor"],
+                           correct: 0
         },
         {
-          question: "Which law says For every reaction , there is an equal and opposite reaction?",
-          options: ["Newton 1 law", "Newton 2 law", "Newton 3 law", "Special Relativity theory"],
+                          question: "Which law says For every reaction , there is an equal and opposite reaction?",
+                              options: ["Newton 1 law", "Newton 2 law", "Newton 3 law", "Special Relativity theory"],
           correct: 2  
         },
         {
-          question: "How much is gravitational force of moon wrt earth?",
-          options: ["1/20" , "1/5.4" , "1/10" , "1/6"],
+                        question: "How much is gravitational force of moon wrt earth?",
+          options: ["1/20", "1/5.4", "1/10", "1/6"],
           correct: 3 
         },
         {
-          question: "What force is required to escape Earth's gravitatioanl pull(Escape velocity)?",
-          options: ["11.2 m/s", " 27.2 m/s", "8.2 m/s" , "4 m/s"],
-          correct: 0
+                                     question: "What force is required to escape Earth's gravitatioanl pull(Escape velocity)?",
+                         options: ["11.2 m/s", "27.2 m/s", "8.2 m/s", "4 m/s"],
+                  correct: 0
         }
-
       ],
-      hard: [
+                     hard: [
         {
           question: "In simple harmonic motion, how is maximum velocity related to omega (ω)?",
-          options: ["v = ω / A", "v = A * ω", "v = A * ω²", "v = ω² / A"],
+                         options: ["v = ω / A", "v = A * ω", "v = A * ω²", "v = ω² / A"],
           correct: 1
         },
         {
-        question: "Which principle states that position and momentum cannot both be measured precisely at the same time?",
-        options: ["Pauli Exclusion Principle","Heisenberg Uncertainty Principle","Schrödinger's Rule","Planck's Law"],
-        correct: 1
+                 question: "Which principle states that position and momentum cannot both be measured precisely at the same time?",
+                           options: ["Pauli Exclusion Principle", "Heisenberg Uncertainty Principle", "Schrödinger's Rule", "Planck's Law"],
+          correct: 1
         },
         {
-        question: "What is the exact speed of light in a vacuum?",
-        options: ["299,792,458 m/s","300,000,000 m/s","150,000,000 m/s","343 m/s"],
-        correct:0
+          question: "What is the exact speed of light in a vacuum?",
+          options: ["299,792,458 m/s", "300,000,000 m/s", "150,000,000 m/s", "343 m/s"],
+                       correct: 0
         },
         {
           question: "Which friction act when we start walking?",
-          options: ["Kinetic Friction" , "Static Friction", "Rolling Friction", "None of the above"],
-          correct:1
+                        options: ["Kinetic Friction", "Static Friction", "Rolling Friction", "None of the above"],
+          correct: 1
         }
-
       ]
     };
 
-    let activeQuestions = [];
-    let currentQuestionIndex = 0;
-    let score = 0;
-
-    function startQuiz(level) {
-      activeQuestions = quizQuestion[level];
-      currentQuestionIndex = 0;
+                              let activeQuestions = [];
+                   let currentQuestionIndex = 0;
+              let score = 0;
+                        let incorrectAnswers = [];
+ 
+                     function startQuiz(level) {
+                      activeQuestions = quizQuestion[level];
+                            currentQuestionIndex = 0;
       score = 0;
+      incorrectAnswers = [];
 
       document.getElementById('difficulty-box').style.display = 'none';
-      document.getElementById('quiz-box').style.display = 'block';
+                                 document.getElementById('quiz-box').style.display = 'block';
       loadQuestion();
     }
 
     function loadQuestion() {
-      const optionsContainer = document.getElementById('options-container');
+                           const optionsContainer = document.getElementById('options-container');
       optionsContainer.innerHTML = '';
-
-      const currentData = activeQuestions[currentQuestionIndex];
+      
+                         const currentData = activeQuestions[currentQuestionIndex];
       document.getElementById('question-text').innerText = currentData.question;
 
       currentData.options.forEach((optionText, index) => {
         const button = document.createElement('button');
         button.innerText = optionText;
         button.classList.add('btn');
-        button.onclick = () => selectAnswer(index);
+                               button.onclick = () => selectAnswer(index);
         optionsContainer.appendChild(button);
       });
     }
 
     function selectAnswer(selectedIndex) {
-      if (selectedIndex === activeQuestions[currentQuestionIndex].correct) {
+                        const currentData = activeQuestions[currentQuestionIndex];
+
+      if (selectedIndex === currentData.correct) {
         score++;
+      } else {
+        incorrectAnswers.push({
+          question: currentData.question,
+                                  selected: currentData.options[selectedIndex],
+          correct: currentData.options[currentData.correct]
+        });
       }
 
       currentQuestionIndex++;
       if (currentQuestionIndex < activeQuestions.length) {
         loadQuestion();
-      } else {
+                   } else {
         showResult();
       }
     }
 
     function showResult() {
-      document.getElementById('quiz-box').style.display = 'none';
-      document.getElementById('result-box').style.display = 'block';
-      document.getElementById('score-text').innerText = `You scored ${score} out of ${activeQuestions.length}!`;
+                             document.getElementById('quiz-box').style.display = 'none';
+               document.getElementById('result-box').style.display = 'block';
+                 document.getElementById('score-text').innerText = `You scored ${score} out of ${activeQuestions.length}!`;
+
+      const reviewContainer = document.getElementById('review-container');
+
+      if (incorrectAnswers.length > 0) {
+        let reviewHTML = '<h3 style="font-size: 15px; margin-bottom: 10px;">Review Incorrect Answers:</h3>';
+                         incorrectAnswers.forEach(item => {
+          reviewHTML += `
+            <div class="review-item">
+              <div class="review-q">${item.question}</div>
+                                       <div class="wrong-ans">Your answer: ${item.selected}</div>
+              <div class="correct-ans">Correct answer: ${item.correct}</div>
+            </div>
+          `;
+        });
+        reviewContainer.innerHTML = reviewHTML;
+      } else {
+                       reviewContainer.innerHTML = '<p style="color: #22c55e; font-size: 15px;"> :D Perfect score! No wrong answers.</p>';
+      }
     }
 
     function restartQuiz() {
       document.getElementById('result-box').style.display = 'none';
-      document.getElementById('difficulty-box').style.display = 'block';
+                       document.getElementById('difficulty-box').style.display = 'block';
     }
 
-    function toggleTheme() {
+                         function toggleTheme() {
       const body = document.body;
-      const themeBtn = document.querySelector('.theme-btn');
-      
-      if (body.classList.contains('light-theme')) {
+                         const themeBtn = document.querySelector('.theme-btn');
+
+                     if (body.classList.contains('light-theme')) {
         body.classList.remove('light-theme');
-        themeBtn.innerText = '☀️ Light Mode';
+                            themeBtn.innerText = '☀️ Light Mode';
       } else {
         body.classList.add('light-theme');
-        themeBtn.innerText = '🌙 Dark Mode';
+                      themeBtn.innerText = '🌙 Dark Mode';
       }
-    }
-  </script>
-
-</body>
-</html>
+               }
+             </script>
+      </body>
+               </html>
