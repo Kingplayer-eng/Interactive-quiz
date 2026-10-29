@@ -18,6 +18,7 @@
 - Interactive option
 - Levels- Easy , moderate and hard.
 - Light and dark mode.
+- Refresh question everytime
 
   ## As the suggestion added:
   - Correct answers for incorrect marked answer at the end of quiz.
