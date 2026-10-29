@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-                     <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Quiz App</title>
-                 <style>
+     <style>
     :root {
        --bg-color: #1eb293b;
              --card-bg: #1e293b;
-               --text-color: #ffffff;
+                --text-color: #ffffff;
                      --subtext-color: #94a3b8;
-                        --btn-bg: #3b82f6;
+                         --btn-bg: #3b82f6;
                                 --btn-hover: #2563eb;
     }
 
@@ -20,7 +20,7 @@
                 background-size:  cover;
                  background-position: center;
                  background-repeat: no-repeat;
-                 color: var(text color);
+                 color: var(--text-color);
                     display: flex;
                     justify-content: center;
                       align-items: center;
@@ -30,12 +30,12 @@
     
 
                     body.light-theme {
-               --bg-color: #f1f5f9;
-                       --card-bg: #ffffff;
-                             --text-color: #0f172a;
+                --bg-color: #f1f5f9;
+                        --card-bg: #ffffff;
+                           --text-color: #0f172a;
                                 --subtext-color: #64748b;
-                             --btn-bg: #2563eb;
-                                 --btn-hover: #1d4ed8;
+                           --btn-bg: #2563eb;
+                                  --btn-hover: #1d4ed8;
     }
     
                    body {
@@ -47,19 +47,19 @@
         align-items: center;
         min-height: 100vh;
          margin: 0;
-           transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease;
     }
 
                   .quiz-card {
       background-color: var(--card-bg);
       padding: 30px;
       border-radius: 12px;
-           width: 360px;
+            width: 360px;
       text-align: center;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
 
-                 .top-bar {
+                  .top-bar {
       display: flex;
       justify-content: flex-end;
       margin-bottom: 15px;
@@ -94,7 +94,7 @@
       font-size: 16px;
       border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s   cubic-bezeier(0.4,0,0.2,1);
+      transition: all 0.2s   cubic-bezier(0.4,0,0.2,1);
     }
 
     .btn:hover {
@@ -113,7 +113,7 @@
                    .easy-btn:hover { background-color: #16a34a; }
 
          .mod-btn { background-color: #eab308; color: #000; }
-                   .mod-btn:hover { background-color: #ca8a04; }
+                    .mod-btn:hover { background-color: #ca8a04; }
 
         .hard-btn { background-color: #ef4444; }
                  .hard-btn:hover { background-color: #dc2626; }
@@ -122,66 +122,60 @@
               font-size: 20px;
               font-weight: bold;
             margin: 20px 0;
-             color: #38bdf8;
+               color: #38bdf8;
     }
 
-               .review-container {
-      margin-top: 15px;
-        margin-bottom: 20px;
-        text-align: left;
-          max-height: 200px;
-        overflow-y: auto;
-      padding-right: 5px;
-    }
+    .review-item {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
 
-                   .review-item {
-      background-color: rgba(0, 0, 0, 0.2);
-        padding: 12px;
-        border-radius: 8px;
-        margin-bottom: 10px;
-      font-size: 14px;
-    }
-     
-                    .review-q {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    
-                  .wrong-ans {
-      color: #ef4444;
-      margin-bottom: 3px;
-    }
+.review-q {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 
-                                 .correct-ans {
-      color: #22c55e;
-    }
+.wrong-ans {
+  color: #ef4444;
+  margin-bottom: 3px;
+}
 
-    @keyframes fandeInUp {
-          from{
-                 opacity: 0;
-                 transform: translateY(15PX);
-          }
-            to{
-                opacity: 1;
-                transoform: translateY(0);
-            }
-    }
-     
-           #difficulty-box, #quiz-box, #result-box {
-            animation: fadeInUp 0.35s ease-out forward;
+.correct-ans {
+  color: #22c55e;
+}
 
-           }
-  </style>
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+#difficulty-box, #quiz-box, #result-box {
+  animation: fadeInUp 0.35s ease-out forwards;
+}
+</style>
+  
+ </style>
 </head>
 <body>
                        <div class="quiz-card">
                 <div class="top-bar">
                              <button class="theme-btn" onclick="toggleTheme()">☀️ Light Mode</button>
      </div>
-  
+ 
                   <div id="difficulty-box">
               <h2>Select Difficulty</h2>
-                          <p style="color: var(--subtext-color); font-size: 14px;">Choose your challenge level to begin:</p>
+                         <p style="color: var(--subtext-color); font-size: 14px;">Choose your challenge level to begin:</p>
                      <div class="btn-group">
         <button class="btn easy-btn" onclick="startQuiz('easy')">🟢 Easy</button>
                        <button class="btn mod-btn" onclick="startQuiz('moderate')">🟡 Moderate</button>
@@ -193,108 +187,506 @@
       <div id="options-container" class="btn-group"></div>
     </div>
                 <div id="result-box" style="display: none;">
-               <h2>Quiz Complete!</h2>
+                <h2>Quiz Complete!</h2>
       <div id="score-text"></div>
       <div id="review-container" class="review-container"></div>
                   <button class="btn" onclick="restartQuiz()" style="width: 100%;">Play Again</button>
     </div>
   </div>
   <script>
-                  const quizQuestion = {
-             easy: [
+                 const quizQuestion = {
+      easy: [
         {
           question: "What is omega (ω) in Physics?",
-                       options: ["Angular frequency / velocity", "Linear acceleration", "Force", "Tangential velocity"],
+          options: ["Angular frequency / velocity", "Linear acceleration", "Force", "Tangential velocity"],
           correct: 0
         },
         {
-                question: "Which three planets in our solar system are in the habitable zone?",
-                options: ["Earth, Mars, Jupiter", "Earth, Venus, Mars", "Earth, Neptune, Saturn", "Earth, Uranus, Neptune"],
-              correct: 1
-        },
-        {
-           question: "What is ESP32?",
-               options: ["Microchip", "Microcontroller", "Gyroscope", "Thermometer"],
-           correct: 1
-        },
-        {
-            question: "Longest travelled human made object ?",
-                         options: ["GSLV-F17", "SLS-Rocket", "Voyager 1", "Starship V3"],
-            correct: 2
-        }
-      ],
-                     moderate: [
-        {
-          question: "What is the SI unit of Angular Velocity (ω)?",
-                     options: ["m/s", "rad/s", "rad/s²", "Hertz"],
+          question: "Which three planets in our solar system are in the habitable zone?",
+          options: ["Earth, Mars, Jupiter", "Earth, Venus, Mars", "Earth, Neptune, Saturn", "Earth, Uranus, Neptune"],
           correct: 1
         },
         {
-                   question: "What sensor is found in Computer-Mouse?",
-              options: ["optoelectronic sensor", "IR sensor", "Accelerometer", "Proximity Sensor"],
-                           correct: 0
+          question: "What is ESP32?",
+          options: ["Microchip", "Microcontroller", "Gyroscope", "Thermometer"],
+          correct: 1
         },
         {
-                          question: "Which law says For every reaction , there is an equal and opposite reaction?",
-                              options: ["Newton 1 law", "Newton 2 law", "Newton 3 law", "Special Relativity theory"],
+          question: "Longest travelled human made object?",
+          options: ["GSLV-F17", "SLS-Rocket", "Voyager 1", "Starship V3"],
+          correct: 2
+        },
+        {
+          question: "Which planet in our solar system is known as the Red Planet?",
+          options: ["Venus", "Mars", "Jupiter", "Saturn"],
+          correct: 1
+        },
+        {
+          question: "What is the primary source of energy for Earth's environment and ecosystems?",
+          options: ["The Moon", "Wind", "The Sun", "Volcanic heat"],
+          correct: 2
+        },
+        {
+          question: "A clerk at a butcher shop stands 5 feet 10 inches tall and wears size 10 shoes. What does he weigh?",
+          options: ["75 kg", "85 kg", "meat", "95 kg"],
+          correct: 2
+        },
+        {
+          question: "Which of the following is a renewable resource that will never run out?",
+          options: ["Coal", "Oil", "Solar energy", "Natural gas"],
+          correct: 2
+        },
+        {
+          question: "What gas do plants absorb from the atmosphere for photosynthesis?",
+          options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+          correct: 1
+        },
+        {
+          question: "How many bones are in the adult human body?",
+          options: ["206", "195", "210", "180"],
+          correct: 0
+        },
+        {
+          question: "What is the chemical symbol for water?",
+          options: ["H2O", "CO2", "O2", "NaCl"],
+          correct: 0
+        },
+        {
+          question: "Which instrument is used to measure temperature?",
+          options: ["Barometer", "Thermometer", "Hygrometer", "Anemometer"],
+          correct: 1
+        },
+        {
+          question: "What is the center of an atom called?",
+          options: ["Electron", "Nucleus", "Proton cloud", "Orbit"],
+          correct: 1
+        },
+        {
+          question: "Which force pulls objects toward the center of the Earth?",
+          options: ["Magnetism", "Friction", "Gravity", "Tension"],
+          correct: 2
+        },
+        {
+          question: "What is the largest mammal on Earth?",
+          options: ["African Elephant", "Blue Whale", "Giraffe", "Great White Shark"],
+          correct: 1
+        },
+        {
+          question: "Which of these is a gaseous planet in our solar system?",
+          options: ["Mars", "Jupiter", "Mercury", "Venus"],
+          correct: 1
+        },
+        {
+          question: "What color do you get if you mix blue and yellow paint?",
+          options: ["Purple", "Green", "Orange", "Brown"],
+          correct: 1
+        },
+        {
+          question: "How many days are there in a standard non-leap year?",
+          options: ["364", "365", "366", "360"],
+          correct: 1
+        },
+        {
+          question: "Which direction does the sun rise from?",
+          options: ["North", "South", "East", "West"],
+          correct: 2
+        },
+        {
+          question: "What is the boiling point of water in Celsius?",
+          options: ["50 °C", "90 °C", "100 °C", "150 °C"],
+          correct: 2
+        },
+        {
+          question: "Which animal is known as the 'Ship of the Desert'?",
+          options: ["Horse", "Camel", "Elephant", "Donkey"],
+          correct: 1
+        },
+        {
+          question: "What is the main gas found in the air we breathe?",
+          options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"],
+          correct: 2
+        },
+        {
+          question: "How many planets are in our solar system?",
+          options: ["7", "8", "9", "10"],
+          correct: 1
+        },
+        {
+          question: "What tool is used to look at distant stars and planets?",
+          options: ["Microscope", "Telescope", "Periscope", "Magnifying glass"],
+          correct: 1
+        },
+        {
+          question: "What is the liquid metal commonly used in traditional thermometers?",
+          options: ["Gallium", "Mercury", "Lead", "Tin"],
+          correct: 1
+        },
+        {
+          question: "Which organ pumps blood through the human body?",
+          options: ["Lungs", "Brain", "Heart", "Liver"],
+          correct: 2
+        },
+        {
+          question: "What is the natural satellite of planet Earth?",
+          options: ["Titan", "The Moon", "Europa", "Phobos"],
+          correct: 1
+        },
+        {
+          question: "Which shape has three sides?",
+          options: ["Square", "Rectangle", "Triangle", "Circle"],
+          correct: 2
+        },
+        {
+          question: "What is the process by which plants make their food using sunlight?",
+          options: ["Respiration", "Photosynthesis", "Transpiration", "Digestion"],
+          correct: 1
+        },
+        {
+          question: "Which ocean is the largest on Earth?",
+          options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+          correct: 3
+        }
+      ],
+      moderate: [
+        {
+          question: "What is the SI unit of Angular Velocity (ω)?",
+          options: ["m/s", "rad/s", "rad/s²", "Hertz"],
+          correct: 1
+        },
+        {
+          question: "What sensor is found in a Computer-Mouse?",
+          options: ["optoelectronic sensor", "IR sensor", "Accelerometer", "Proximity Sensor"],
+          correct: 0
+        },
+        {
+          question: "Which law says For every reaction, there is an equal and opposite reaction?",
+          options: ["Newton 1 law", "Newton 2 law", "Newton 3 law", "Special Relativity theory"],
           correct: 2  
         },
         {
-                        question: "How much is gravitational force of moon wrt earth?",
+          question: "How much is gravitational force of moon wrt earth?",
           options: ["1/20", "1/5.4", "1/10", "1/6"],
           correct: 3 
         },
         {
-                                     question: "What force is required to escape Earth's gravitatioanl pull(Escape velocity)?",
-                         options: ["11.2 m/s", "27.2 m/s", "8.2 m/s", "4 m/s"],
-                  correct: 0
-        }
-      ],
-                     hard: [
+          question: "What force is required to escape Earth's gravitational pull (Escape velocity)?",
+          options: ["11.2 km/s", "27.2 km/s", "8.2 km/s", "4 km/s"],
+          correct: 0
+        },
         {
-          question: "In simple harmonic motion, how is maximum velocity related to omega (ω)?",
-                         options: ["v = ω / A", "v = A * ω", "v = A * ω²", "v = ω² / A"],
+          question: "What is the powerhouse of the cell?",
+          options: ["Nucleus", "Ribosome", "Mitochondria", "Golgi body"],
+          correct: 2
+        },
+        {
+          question: "What is the chemical symbol for Gold?",
+          options: ["Ag", "Au", "Gd", "Go"],
           correct: 1
         },
         {
-                 question: "Which principle states that position and momentum cannot both be measured precisely at the same time?",
-                           options: ["Pauli Exclusion Principle", "Heisenberg Uncertainty Principle", "Schrödinger's Rule", "Planck's Law"],
+          question: "Which planet has the most moons in our solar system?",
+          options: ["Jupiter", "Saturn", "Uranus", "Neptune"],
+          correct: 1
+        },
+        {
+          question: "What is the speed of sound in dry air at 20 °C?",
+          options: ["343 m/s", "300,000 m/s", "1,500 m/s", "1,080 m/s"],
+          correct: 0
+        },
+        {
+          question: "Who proposed the theory of General Relativity?",
+          options: ["Isaac Newton", "Galileo Galilei", "Albert Einstein", "Niels Bohr"],
+          correct: 2
+        },
+        {
+          question: "What is the hardest natural substance on Earth?",
+          options: ["Gold", "Iron", "Diamond", "Quartz"],
+          correct: 2
+        },
+        {
+          question: "Which gas makes up the majority of Earth's atmosphere?",
+          options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Argon"],
+          correct: 2
+        },
+        {
+          question: "What does CPU stand for in computer science?",
+          options: ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Core Processing Utility"],
+          correct: 0
+        },
+        {
+          question: "What is the freezing point of water in Fahrenheit?",
+          options: ["0 °F", "32 °F", "100 °F", "212 °F"],
+          correct: 1
+        },
+        {
+          question: "Which subatomic particle carries a negative electrical charge?",
+          options: ["Proton", "Neutron", "Electron", "Positron"],
+          correct: 2
+        },
+        {
+          question: "What is the chemical formula for table salt?",
+          options: ["H2O", "NaCl", "CO2", "CH4"],
+          correct: 1
+        },
+        {
+          question: "Which blood cells are responsible for fighting infections?",
+          options: ["Red blood cells", "White blood cells", "Platelets", "Plasma"],
+          correct: 1
+        },
+        {
+          question: "What is the closest star to our solar system?",
+          options: ["Sirius", "Proxima Centauri", "Betelgeuse", "Polaris"],
+          correct: 1
+        },
+        {
+          question: "What unit is used to measure electrical resistance?",
+          options: ["Volt", "Ampere", "Ohm", "Watt"],
+          correct: 2
+        },
+        {
+          question: "Which vitamin is synthesized when human skin is exposed to sunlight?",
+          options: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"],
+          correct: 3
+        },
+        {
+          question: "What is the primary gas found in the atmosphere of Venus?",
+          options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Helium"],
+          correct: 1
+        },
+        {
+          question: "Which scientist discovered penicillin?",
+          options: ["Marie Curie", "Alexander Fleming", "Louis Pasteur", "Isaac Newton"],
+          correct: 1
+        },
+        {
+          question: "What type of lens is a magnifying glass?",
+          options: ["Concave", "Convex", "Flat", "Cylindrical"],
+          correct: 1
+        },
+        {
+          question: "What is the pH level of pure water at 25 °C?",
+          options: ["0", "7", "14", "5"],
+          correct: 1
+        },
+        {
+          question: "Which element is diamond an allotrope of?",
+          options: ["Carbon", "Silicon", "Sulfur", "Phosphorus"],
+          correct: 0
+        },
+        {
+          question: "What galaxy is Earth located in?",
+          options: ["Andromeda", "Milky Way", "Sombrero", "Triangulum"],
+          correct: 1
+        },
+        {
+          question: "Which metal is liquid at room temperature?",
+          options: ["Iron", "Aluminum", "Mercury", "Copper"],
+          correct: 2
+        },
+        {
+          question: "What is the measurement of the amount of matter in an object?",
+          options: ["Weight", "Mass", "Volume", "Density"],
+          correct: 1
+        },
+        {
+          question: "Which layer of the atmosphere contains the ozone layer?",
+          options: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"],
+          correct: 1
+        },
+        {
+          question: "What is the SI unit of frequency?",
+          options: ["Joule", "Watt", "Hertz", "Pascal"],
+          correct: 2
+        }
+      ],
+      hard: [
+        {
+          question: "In simple harmonic motion, how is maximum velocity related to omega (ω)?",
+          options: ["v = ω / A", "v = A * ω", "v = A * ω²", "v = ω² / A"],
+          correct: 1
+        },
+        {
+          question: "Which principle states that position and momentum cannot both be measured precisely at the same time?",
+          options: ["Pauli Exclusion Principle", "Heisenberg Uncertainty Principle", "Schrödinger's Rule", "Planck's Law"],
           correct: 1
         },
         {
           question: "What is the exact speed of light in a vacuum?",
           options: ["299,792,458 m/s", "300,000,000 m/s", "150,000,000 m/s", "343 m/s"],
-                       correct: 0
+          correct: 0
         },
         {
           question: "Which friction act when we start walking?",
-                        options: ["Kinetic Friction", "Static Friction", "Rolling Friction", "None of the above"],
+          options: ["Kinetic Friction", "Static Friction", "Rolling Friction", "None of the above"],
           correct: 1
+        },
+        {
+          question: "What is the particle responsible for giving mass to elementary particles according to the Standard Model?",
+          options: ["Photon", "Gluon", "Higgs Boson", "Neutrino"],
+          correct: 2
+        },
+        {
+          question: "What is the half-life of Carbon-14 used in radiometric dating?",
+          options: ["5,730 years", "1,250 years", "10,000 years", "25,000 years"],
+          correct: 0
+        },
+        {
+          question: "Which thermodynamic law states that entropy of an isolated system always increases over time?",
+          options: ["Zeroth Law", "First Law", "Second Law", "Third Law"],
+          correct: 2
+        },
+        {
+          question: "What is the value of Planck's constant (approximately)?",
+          options: ["6.626 × 10⁻³⁴ J·s", "3.00 × 10⁸ m/s", "1.602 × 10⁻¹⁹ C", "9.11 × 10⁻³¹ kg"],
+          correct: 0
+        },
+        {
+          question: "What is the event horizon of a black hole?",
+          options: ["The center singularity", "The point of no return where escape velocity exceeds light", "The accretion disk glow", "The magnetic poles"],
+          correct: 1
+        },
+        {
+          question: "Which quantum number describes the intrinsic angular momentum (spin) of an electron?",
+          options: ["Principal quantum number", "Azimuthal quantum number", "Magnetic quantum number", "Spin quantum number"],
+          correct: 3
+        },
+        {
+          question: "What phenomenon causes the blue color of the sky?",
+          options: ["Rayleigh scattering", "Refraction", "Total internal reflection", "Diffraction"],
+          correct: 0
+        },
+        {
+          question: "What is the name of the effect where a moving source of sound shifts in frequency?",
+          options: ["Photoelectric effect", "Doppler effect", "Compton effect", "Hall effect"],
+          correct: 1
+        },
+        {
+          question: "What is the fundamental particle that mediates the strong nuclear force?",
+          options: ["Photon", "W boson", "Gluon", "Graviton"],
+          correct: 2
+        },
+        {
+          question: "What does quantum tunneling allow particles to do?",
+          options: ["Pass through a potential energy barrier higher than their kinetic energy", "Travel faster than light", "Emit infinite energy", "Change their chemical element"],
+          correct: 0
+        },
+        {
+          question: "Which law of thermodynamics states that absolute zero cannot be reached by any finite number of processes?",
+          options: ["First Law", "Second Law", "Third Law", "Zeroth Law"],
+          correct: 2
+        },
+        {
+          question: "What is the resting membrane potential of a typical neuron?",
+          options: ["+40 mV", "-70 mV", "0 mV", "-100 mV"],
+          correct: 1
+        },
+        {
+          question: "What is the process by which a heavy nucleus splits into smaller nuclei called?",
+          options: ["Nuclear fusion", "Nuclear fission", "Radioactive decay", "Ionization"],
+          correct: 1
+        },
+        {
+          question: "Which astrophysical object is supported primarily by electron degeneracy pressure?",
+          options: ["Neutron star", "White dwarf", "Black hole", "Red supergiant"],
+          correct: 1
+        },
+        {
+          question: "What is the SI unit of magnetic flux?",
+          options: ["Tesla", "Weber", "Henry", "Gauss"],
+          correct: 1
+        },
+        {
+          question: "In optics, what is chromatic aberration caused by?",
+          options: ["Dispersion of light through a lens", "Scratching on the mirror surface", "Diffraction around corners", "Thermal expansion"],
+          correct: 0
+        },
+        {
+          question: "What is the name of the theoretical point where all matter in a black hole is compressed infinitely?",
+          options: ["Event horizon", "Singularity", "Photon sphere", "Ergosphere"],
+          correct: 1
+        },
+        {
+          question: "Which particle is considered the antimatter counterpart of the electron?",
+          options: ["Proton", "Positron", "Neutrino", "Muon"],
+          correct: 1
+        },
+        {
+          question: "What is the primary mechanism of heat transfer through a vacuum?",
+          options: ["Conduction", "Convection", "Radiation", "Advection"],
+          correct: 2
+        },
+        {
+          question: "What is the term for the bending of waves around obstacles and openings?",
+          options: ["Refraction", "Reflection", "Diffraction", "Polarization"],
+          correct: 2
+        },
+        {
+          question: "Which chemical element has the highest melting point?",
+          options: ["Iron", "Tungsten", "Platinum", "Titanium"],
+          correct: 1
+        },
+        {
+          question: "What does Maxwell's fourth equation (Ampere-Maxwell law) describe?",
+          options: ["Electric field generation from charges", "Magnetic monopoles", "Magnetic field generation from electric currents and changing electric fields", "Electromagnetic induction"],
+          correct: 2
+        },
+        {
+          question: "What is the term for a material that has zero electrical resistance at low temperatures?",
+          options: ["Semiconductor", "Superconductor", "Insulator", "Dielectric"],
+          correct: 1
+        },
+        {
+          question: "Which subatomic hadron is composed of three quarks?",
+          options: ["Meson", "Baryon", "Lepton", "Boson"],
+          correct: 1
+        },
+        {
+          question: "What is the escape velocity from the surface of the Sun approximately?",
+          options: ["11.2 km/s", "42.1 km/s", "617.5 km/s", "1,200 km/s"],
+          correct: 2
+        },
+        {
+          question: "What is the study of the origin, evolution, and eventual fate of the universe called?",
+          options: ["Astronomy", "Astrophysics", "Cosmology", "Quantum mechanics"],
+          correct: 2
         }
       ]
     };
 
-                              let activeQuestions = [];
-                   let currentQuestionIndex = 0;
-              let score = 0;
-                        let incorrectAnswers = [];
- 
-                     function startQuiz(level) {
-                      activeQuestions = quizQuestion[level];
-                            currentQuestionIndex = 0;
+    let activeQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let incorrectAnswers = [];
+
+    // Helper function to shuffle questions randomly
+    function shuffleArray(array) {
+      let arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Starts quiz by shuffling pool and selecting 5 random questions
+    function startQuiz(level) {
+      const fullPool = quizQuestion[level];
+      activeQuestions = shuffleArray(fullPool).slice(0, 5);
+
+      currentQuestionIndex = 0;
       score = 0;
       incorrectAnswers = [];
 
       document.getElementById('difficulty-box').style.display = 'none';
-                                 document.getElementById('quiz-box').style.display = 'block';
+      document.getElementById('quiz-box').style.display = 'block';
       loadQuestion();
     }
-
+     
     function loadQuestion() {
-                           const optionsContainer = document.getElementById('options-container');
+           const optionsContainer = document.getElementById('options-container');
       optionsContainer.innerHTML = '';
       
-                         const currentData = activeQuestions[currentQuestionIndex];
+           const currentData = activeQuestions[currentQuestionIndex];
       document.getElementById('question-text').innerText = currentData.question;
 
       currentData.options.forEach((optionText, index) => {
@@ -305,6 +697,7 @@
         optionsContainer.appendChild(button);
       });
     }
+     
 
     function selectAnswer(selectedIndex) {
                         const currentData = activeQuestions[currentQuestionIndex];
@@ -314,7 +707,7 @@
       } else {
         incorrectAnswers.push({
           question: currentData.question,
-                                  selected: currentData.options[selectedIndex],
+                                    selected: currentData.options[selectedIndex],
           correct: currentData.options[currentData.correct]
         });
       }
@@ -328,19 +721,19 @@
     }
 
     function showResult() {
-                             document.getElementById('quiz-box').style.display = 'none';
-               document.getElementById('result-box').style.display = 'block';
+                           document.getElementById('quiz-box').style.display = 'none';
+                document.getElementById('result-box').style.display = 'block';
                  document.getElementById('score-text').innerText = `You scored ${score} out of ${activeQuestions.length}!`;
 
       const reviewContainer = document.getElementById('review-container');
 
       if (incorrectAnswers.length > 0) {
         let reviewHTML = '<h3 style="font-size: 15px; margin-bottom: 10px;">Review Incorrect Answers:</h3>';
-                         incorrectAnswers.forEach(item => {
+                           incorrectAnswers.forEach(item => {
           reviewHTML += `
             <div class="review-item">
               <div class="review-q">${item.question}</div>
-                                       <div class="wrong-ans">Your answer: ${item.selected}</div>
+                                    <div class="wrong-ans">Your answer: ${item.selected}</div>
               <div class="correct-ans">Correct answer: ${item.correct}</div>
             </div>
           `;
@@ -353,12 +746,12 @@
 
     function restartQuiz() {
       document.getElementById('result-box').style.display = 'none';
-                       document.getElementById('difficulty-box').style.display = 'block';
+                        document.getElementById('difficulty-box').style.display = 'block';
     }
 
                          function toggleTheme() {
       const body = document.body;
-                         const themeBtn = document.querySelector('.theme-btn');
+                             const themeBtn = document.querySelector('.theme-btn');
 
                      if (body.classList.contains('light-theme')) {
         body.classList.remove('light-theme');
@@ -370,4 +763,4 @@
                }
              </script>
       </body>
-               </html>
+                </html>
