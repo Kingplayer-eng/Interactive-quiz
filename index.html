@@ -658,7 +658,7 @@
     let score = 0;
     let incorrectAnswers = [];
 
-    // Helper function to shuffle questions randomly
+  
     function shuffleArray(array) {
       let arr = [...array];
       for (let i = arr.length - 1; i > 0; i--) {
@@ -668,7 +668,7 @@
       return arr;
     }
 
-    // Starts quiz by shuffling pool and selecting 5 random questions
+    
     function startQuiz(level) {
       const fullPool = quizQuestion[level];
       activeQuestions = shuffleArray(fullPool).slice(0, 5);
